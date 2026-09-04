@@ -1,6 +1,6 @@
 export class Building {
-  id: number;
+  id: string;
   name: string;
-  address: string;
-  yearBuilt: number;
+  city: string;
+  createdAt: string;
 }

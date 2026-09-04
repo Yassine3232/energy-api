@@ -22,25 +22,45 @@ npm run start:dev
 
 L’API écoute sur le port `3000` par défaut, ou sur `PORT` si cette variable d’environnement est définie.
 
+## Conventions
+
+- Préfixe : `/api`
+- Version : `v1`
+- Noms de ressources en anglais, au pluriel
+- Chemins en `kebab-case`
+- Propriétés JSON en `camelCase`
+- Dates en ISO 8601, UTC
+- JSON comme format principal
+
 ## Endpoints
 
 | Méthode | Endpoint | Code | Résultat |
 | --- | --- | --- | --- |
-| `GET` | `/api/health` | `200` | État de l’API |
-| `GET` | `/api/buildings` | `200` | Liste de tous les bâtiments |
-| `POST` | `/api/buildings` | `201` | Crée et retourne un bâtiment |
-| `GET` | `/api/buildings/:id` | `200` / `404` | Un bâtiment, ou une erreur s’il n’existe pas |
+| `GET` | `/api/v1/health` | `200` | État de l’API |
+| `GET` | `/api/v1/buildings` | `200` | Liste de tous les bâtiments |
+| `POST` | `/api/v1/buildings` | `201` | Crée et retourne un bâtiment |
+| `GET` | `/api/v1/buildings/:id` | `200` / `404` | Un bâtiment, ou une erreur s’il n’existe pas |
 
 Exemple de création :
 
 ```bash
-curl -i -X POST http://localhost:3000/api/buildings \
+curl -i -X POST http://localhost:3000/api/v1/buildings \
   -H "Content-Type: application/json" \
   -d "{
     \"name\": \"Pavillon principal\",
-    \"address\": \"7000, rue Marie-Victorin\",
-    \"yearBuilt\": 2005
+    \"city\": \"Montréal\"
   }"
+```
+
+Réponse :
+
+```json
+{
+  "id": "bld-001",
+  "name": "Pavillon principal",
+  "city": "Montréal",
+  "createdAt": "2026-08-26T14:30:00Z"
+}
 ```
 
 ## Stockage temporaire

@@ -5,20 +5,20 @@ import { CreateBuildingDto } from './dto/create-building.dto';
 @Injectable()
 export class BuildingsService {
   private listeBatiments: Building[] = [];
-  private prochainId = 1;
+  private prochainNumero = 1;
 
   findAll(): Building[] {
     return this.listeBatiments;
   }
 
-  findOne(id: number): Building {
+  findOne(id: string): Building {
     let resultat: Building | null = null;
 
-    for (let i = 0; i < this.listeBatiments.length; i++) {
-      if (this.listeBatiments[i].id === id) {
-        resultat = this.listeBatiments[i];
+    this.listeBatiments.map((batiment) => {
+      if (batiment.id === id) {
+        resultat = batiment;
       }
-    }
+    });
 
     if (resultat === null) {
       throw new NotFoundException('Le batiment ' + id + ' n\'existe pas');
@@ -28,15 +28,17 @@ export class BuildingsService {
   }
 
   create(donneesRecues: CreateBuildingDto): Building {
+    let identifiant = 'bld-00' + this.prochainNumero;
+
     let nouveauBatiment: Building = {
-      id: this.prochainId,
+      id: identifiant,
       name: donneesRecues.name,
-      address: donneesRecues.address,
-      yearBuilt: donneesRecues.yearBuilt,
+      city: donneesRecues.city,
+      createdAt: new Date().toISOString(),
     };
 
     this.listeBatiments.push(nouveauBatiment);
-    this.prochainId = this.prochainId + 1;
+    this.prochainNumero = this.prochainNumero + 1;
 
     return nouveauBatiment;
   }

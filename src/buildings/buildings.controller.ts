@@ -7,22 +7,18 @@ import { CreateBuildingDto } from './dto/create-building.dto';
 export class BuildingsController {
   constructor(private readonly buildingsService: BuildingsService) {}
 
-  // Cette fonction retourne tous les batiments
   @Get()
   findAll(): Building[] {
     let tousLesBatiments = this.buildingsService.findAll();
     return tousLesBatiments;
   }
 
-  // Cette fonction retourne un seul batiment selon son id
   @Get(':id')
   findOne(@Param('id') id: string): Building {
-    let idNombre = Number(id);
-    let unBatiment = this.buildingsService.findOne(idNombre);
+    let unBatiment = this.buildingsService.findOne(id);
     return unBatiment;
   }
 
-  // Cette fonction cree un nouveau batiment
   @Post()
   create(@Body() donneesRecues: CreateBuildingDto): Building {
     let nouveauBatiment = this.buildingsService.create(donneesRecues);
